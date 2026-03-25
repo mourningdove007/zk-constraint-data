@@ -49,8 +49,15 @@ Current examples are original synthetic circuits written specifically for this d
 
 ## Related
 
-- Hugging Face model: `TBD`
-- Hugging Face dataset: `TBD`
+- Hugging Face dataset: [mourningdove/zk-constraint-data](https://huggingface.co/datasets/mourningdove/zk-constraint-data)
+
+## Deploying
+
+To deploy a new version of the dataset, we use the following command:
+
+```
+hf upload mourningdove/zk-constraint-data . --repo-type=dataset
+```
 
 
 ## V 0.0 (Proof Of Concept)
