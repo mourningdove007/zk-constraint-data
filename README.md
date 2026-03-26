@@ -3,10 +3,6 @@
 A curated dataset of Circom circuit examples for fine-tuning LLMs to identify insufficient constraints in ZK proof systems.
 
 
-## Purpose
-
-This dataset trains a model to answer one focused question: **given a set of signals and constraints, is the constraint system sufficient to uniquely determine the values that matter?**
-
 
 ## Vulnerability Patterns Covered
 
@@ -30,15 +26,14 @@ Each line in the JSONL file is a complete training example:
 ```json
 {
   "messages": [
-    {"role": "system", "content": "You are a ZK proof security auditor..."},
+    {"role": "system", "content": "YYou are a Zero-Knowledge Proof security auditor specializing in Circom. Your goal is to identify under-constrained signals and logical vulnerabilities in circuits."},
     {"role": "user", "content": "Audit this circuit for vulnerabilities:\n\n```circom\n...```"},
     {"role": "assistant", "content": "Vulnerability: ...\n\nExplanation: ...\n\nFix: ..."}
   ],
-  "origin": {
-    "source": "...",
-    "language": "circom",
-    "vulnerability_class": "...",
-    "code_reconstructed": true
+  "source": {
+    "name": "...",
+    "link": "circom",
+    "protocol": "...",
   }
 }
 ```
@@ -62,4 +57,4 @@ hf upload mourningdove/zk-constraint-data . --repo-type=dataset
 
 ## V 0.0 (Proof Of Concept)
 
-We currently only have synthetic examples to avoid using the intelictual property of datasets. 
+We have 16 synthetic examples to avoid using the intelectual property of datasets. The owner of this repository was given permission from ZKSecurity to use their audit reports as training data. These are located in `zk_security.jsonl`.
