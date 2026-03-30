@@ -1,51 +1,33 @@
 # ZK Constraint Dataset
 
-A curated dataset of Circom circuit examples for fine-tuning LLMs to identify insufficient constraints in ZK proof systems.
+A dataset of Circom circuit examples for fine-tuning LLMs to identify insufficient constraints in ZK proof systems.
 
+## v0.0 (proof of concept)
 
-## Purpose
+These 15 training examples and 4 validation examples are far from sufficient to train a quality model. A model fine-tuned on this little data will likely only behave sensibly on very simple circuits.
 
-This dataset trains a model to answer one focused question: **given a set of signals and constraints, is the constraint system sufficient to uniquely determine the values that matter?**
+## Data Sources
 
-
-## Vulnerability Patterns Covered
-
-| # | Pattern | What is missing or weakened |
-|---|---|---|
-| 1 | Hint without recomposition | `<--` with no binding `===` |
-| 2 | Boolean check only | `x * (x-1) === 0` but x is never tied to source |
-| 3 | Underdetermined system | 1 equation, 2 unknowns |
-| 4 | Weak final check | `a * b === 0` instead of `a === 0` |
-| 5 | Missing range constraint | bits decomposed but never bounded |
-| 6 | Unconstrained output | output assigned with `<--` not `<==` |
-| 7 | Partial constraint | only some iterations constrained in a loop |
-| 8 | Missing input validation | signal used before being constrained |
-| 9 | Reused signal across contexts | same signal constrained differently in two places |
-| 10 | Unconstrained intermediate | intermediate value computed but never tied to output |
+Current examples are mostly circuits written specifically for this dataset. The repository owner received permission from ZKSecurity to use their public audit findings as training data; those rows live in `zk_security.jsonl`. Those examples include a `source` object (name, link, protocol) so readers can open the underlying report. There are currently 3 examples from ZKSecurity; we plan to add more as we read additional reports. 
 
 ## Data Format
 
-Each line in the JSONL file is a complete training example:
+Each line in the JSONL file is a complete training example. Rows derived from ZKSecurity include a `source` object; synthetic examples may omit it.
 
 ```json
 {
   "messages": [
-    {"role": "system", "content": "You are a ZK proof security auditor..."},
+    {"role": "system", "content": "You are a Zero-Knowledge Proof security auditor specializing in Circom. Your goal is to identify under-constrained signals and logical vulnerabilities in circuits."},
     {"role": "user", "content": "Audit this circuit for vulnerabilities:\n\n```circom\n...```"},
     {"role": "assistant", "content": "Vulnerability: ...\n\nExplanation: ...\n\nFix: ..."}
   ],
-  "origin": {
-    "source": "...",
-    "language": "circom",
-    "vulnerability_class": "...",
-    "code_reconstructed": true
+  "source": {
+    "name": "...",
+    "link": "https://...",
+    "protocol": "..."
   }
 }
 ```
-
-## Data Sources
-
-Current examples are original synthetic circuits written specifically for this dataset. Future examples sourced from public repositories will include full attribution in the `origin` block with the applicable license noted. Only data we create or have explicit permission from the dataset owner will be allowed for training purposes.
 
 ## Related
 
@@ -60,6 +42,3 @@ hf upload mourningdove/zk-constraint-data . --repo-type=dataset
 ```
 
 
-## V 0.0 (Proof Of Concept)
-
-We currently only have synthetic examples to avoid using the intelictual property of datasets. 
